@@ -1,0 +1,17 @@
+baseURL = "https://example.com/"
+title   = "My Hugo Site"
+
+# Only home for now, remove what you want.
+disableKinds = [
+	"taxonomy",
+	"term",
+	"404",
+	"page",
+	"robotstxt",
+	"rss",
+	"section",
+	"sitemap",
+]
+
+[[module.import]]
+	path = "github.com/gohugoio/hugo-mod-alpinejs"

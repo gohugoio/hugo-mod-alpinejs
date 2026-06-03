@@ -1,0 +1,49 @@
+<!doctype html>
+<html lang="{{ site.Language.Locale }}" dir="{{ or site.Language.Direction `ltr` }}">
+	<head>
+		<meta charset="utf-8" />
+		<meta name="viewport" content="width=device-width" />
+		<title>{{ if .IsHome }}{{ site.Title }}{{ else }}{{ printf "%s | %s" .Title site.Title }}{{ end }}</title>
+		{{- with resources.Get "css/main.css" }}
+			{{- $opts := dict
+				"minify" (cond hugo.IsDevelopment false true)
+				"sourceMap" (cond hugo.IsDevelopment "linked" "none")
+			}}
+			{{- with . | css.Build $opts }}
+				{{- if hugo.IsDevelopment }}
+					<link rel="stylesheet" href="{{ .RelPermalink }}">
+				{{- else }}
+					{{- with . | fingerprint }}
+						<link rel="stylesheet" href="{{ .RelPermalink }}" integrity="{{ .Data.Integrity }}" crossorigin="anonymous">
+					{{- end }}
+				{{- end }}
+			{{- end }}
+		{{- end }}
+		{{- with resources.Get "js/main.js" }}
+			{{- $opts := dict
+				"minify" (cond hugo.IsDevelopment false true)
+				"sourceMap" (cond hugo.IsDevelopment "linked" "none")
+			}}
+			{{- with . | js.Build $opts }}
+				{{- if hugo.IsDevelopment }}
+					<script src="{{ .RelPermalink }}"></script>
+				{{- else }}
+					{{- with . | fingerprint }}
+						<script src="{{ .RelPermalink }}" integrity="{{ .Data.Integrity }}" crossorigin="anonymous"></script>
+					{{- end }}
+				{{- end }}
+			{{- end }}
+		{{- end }}
+	</head>
+	<body>
+		<header>
+			<strong>{{ site.Title }}</strong>
+		</header>
+		<main>
+			{{ block "main" . }}{{ end }}
+		</main>
+		<footer>
+			<small class="muted">Copyright {{ now.Year }}. All rights reserved.</small>
+		</footer>
+	</body>
+</html>
