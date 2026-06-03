@@ -5,7 +5,7 @@ go 1.26.1
 replace github.com/gohugoio/hugo-mod-alpinejs => ../
 
 require (
-	github.com/gohugoio/hugo-mod-alpinejs v0.0.0-20260603152852-5ef3c5278610 // indirect
+	github.com/gohugoio/hugo-mod-alpinejs v0.0.0-20260603164250-2967a9712f90 // indirect
 	github.com/gohugoio/hugo-mod-alpinejs/alpinejs/anchor/v3 v3.0.0-20260603160101-3bf59179c21c // indirect
 	github.com/gohugoio/hugo-mod-alpinejs/alpinejs/collapse/v3 v3.0.0-20260603160101-3bf59179c21c // indirect
 	github.com/gohugoio/hugo-mod-alpinejs/alpinejs/focus/v3 v3.0.0-20260603160101-3bf59179c21c // indirect

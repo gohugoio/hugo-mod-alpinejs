@@ -13,5 +13,7 @@ disableKinds = [
 	"sitemap",
 ]
 
-[[module.imports]]
-	path = "github.com/gohugoio/hugo-mod-alpinejs"
+[module]
+	workspace = "hugo.work"
+	[[module.imports]]
+		path = "github.com/gohugoio/hugo-mod-alpinejs"

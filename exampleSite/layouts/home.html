@@ -76,7 +76,7 @@
 	<section class="card" x-data="{ w: 0, h: 0 }">
 		<h2>Resize</h2>
 		<p class="muted">Drag the corner of the box; <code>x-resize</code> reports its size.</p>
-		<div class="resizable" x-resize="w = Math.round(width); h = Math.round(height)">
+		<div class="resizable" x-resize="w = Math.round($width); h = Math.round($height)">
 			<span x-text="`${w} × ${h}`"></span>
 		</div>
 	</section>
