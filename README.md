@@ -1,2 +1,1 @@
-# npmtohugomodtestbench
-Just a test repo.
+[![Netlify Status](https://api.netlify.com/api/v1/badges/50c58ae5-1347-4e06-85e1-13c2fdec0205/deploy-status)](https://app.netlify.com/projects/hugo-mod-alpinejs/deploys)

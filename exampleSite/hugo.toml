@@ -1,5 +1,5 @@
 baseURL = "https://example.com/"
-title   = "My Hugo Site"
+title   = "hugo-mod-alpinejs"
 
 # Only home for now, remove what you want.
 disableKinds = [

@@ -1,8 +1,114 @@
 {{ define "main" }}
 <h1 x-data="{ message: 'I ❤️ Alpine' }" x-text="message"></h1>
-<p class="muted">Basic page structure for testing.</p>
-<section class="card">
-	<h2>Content Block</h2>
-	<p>Replace this with real content.</p>
-</section>
+<p class="muted">One small example per wired-up module, to verify the setup works.</p>
+
+<div class="grid">
+
+	{{/* alpinejs core: x-data / x-on / x-text */}}
+	<section class="card" x-data="{ count: 0 }">
+		<h2>Core</h2>
+		<p>A counter using <code>x-data</code>, <code>x-on</code> and <code>x-text</code>.</p>
+		<button @click="count++">Clicked <span x-text="count"></span> times</button>
+	</section>
+
+	{{/* @alpinejs/collapse: x-collapse */}}
+	<section class="card" x-data="{ open: false }">
+		<h2>Collapse</h2>
+		<button @click="open = !open" x-text="open ? 'Hide details' : 'Show details'"></button>
+		<div x-show="open" x-collapse>
+			<p class="muted">This region animates its height open and closed with <code>x-collapse</code>.</p>
+		</div>
+	</section>
+
+	{{/* @alpinejs/focus: x-trap + $focus */}}
+	<section class="card" x-data="{ open: false }">
+		<h2>Focus</h2>
+		<button @click="open = true">Open trapped panel</button>
+		<div x-show="open" x-trap="open" class="panel">
+			<p class="muted">Focus is trapped here. Press <kbd>Esc</kbd> or the button to leave.</p>
+			<input type="text" placeholder="First focusable" />
+			<input type="text" placeholder="Second focusable" />
+			<button @click="open = false">Close</button>
+		</div>
+	</section>
+
+	{{/* @alpinejs/intersect: x-intersect */}}
+	<section class="card" x-data="{ seen: false }">
+		<h2>Intersect</h2>
+		<div x-intersect="seen = true">
+			<p x-text="seen ? '✅ Scrolled into view (x-intersect fired).' : 'Scroll me into view…'"></p>
+		</div>
+	</section>
+
+	{{/* @alpinejs/mask: x-mask */}}
+	<section class="card" x-data>
+		<h2>Mask</h2>
+		<p>Card number, masked as <code>9999 9999 9999 9999</code>:</p>
+		<input type="text" x-mask="9999 9999 9999 9999" placeholder="4242 4242 4242 4242" />
+	</section>
+
+	{{/* @alpinejs/morph: Alpine.morph */}}
+	<section class="card" x-data="{
+		swapped: false,
+		toggle() {
+			let target = $refs.box;
+			let html = this.swapped
+				? '<div x-ref=\'box\'><strong>Original</strong> node, morphed in place.</div>'
+				: '<div x-ref=\'box\'><em>Morphed</em> node — DOM patched, not replaced.</div>';
+			Alpine.morph(target, html);
+			this.swapped = !this.swapped;
+		}
+	}">
+		<h2>Morph</h2>
+		<div x-ref="box"><strong>Original</strong> node, morphed in place.</div>
+		<button @click="toggle()">Morph it</button>
+	</section>
+
+	{{/* @alpinejs/persist: $persist */}}
+	<section class="card" x-data="{ name: $persist('') }">
+		<h2>Persist</h2>
+		<p>Type a name, then reload the page — <code>$persist</code> keeps it.</p>
+		<input type="text" x-model="name" placeholder="Your name" />
+		<p class="muted">Stored: <span x-text="name || '(empty)'"></span></p>
+	</section>
+
+	{{/* @alpinejs/resize: x-resize */}}
+	<section class="card" x-data="{ w: 0, h: 0 }">
+		<h2>Resize</h2>
+		<p class="muted">Drag the corner of the box; <code>x-resize</code> reports its size.</p>
+		<div class="resizable" x-resize="w = Math.round(width); h = Math.round(height)">
+			<span x-text="`${w} × ${h}`"></span>
+		</div>
+	</section>
+
+	{{/* @alpinejs/sort: x-sort */}}
+	<section class="card" x-data>
+		<h2>Sort</h2>
+		<p class="muted">Drag to reorder.</p>
+		<ul class="sortable" x-sort>
+			<li x-sort:item>① First</li>
+			<li x-sort:item>② Second</li>
+			<li x-sort:item>③ Third</li>
+		</ul>
+	</section>
+
+	{{/* @alpinejs/anchor: x-anchor */}}
+	<section class="card" x-data="{ open: false }">
+		<h2>Anchor</h2>
+		<button x-ref="btn" @click="open = !open">Toggle popover</button>
+		<div x-show="open" x-anchor.bottom-start="$refs.btn" class="popover">
+			<p class="muted">Positioned under the button with <code>x-anchor</code>.</p>
+		</div>
+	</section>
+
+	{{/* @imacrayon/alpine-ajax: x-target */}}
+	<section class="card" x-data>
+		<h2>Ajax</h2>
+		<a href="{{ "fragments/message.html" | relURL }}" x-target="ajax-out">Load fragment</a>
+		<div id="ajax-out">
+			<p class="muted">Click the link to fetch and swap in remote markup.</p>
+		</div>
+	</section>
+
+</div>
 {{ end }}
