@@ -1,0 +1,7 @@
+[[module.mounts]]
+  source = "package/dist"
+  target = "assets/@alpinejs/morph"
+
+[[module.mounts]]
+  source = "package/dist/module.esm.js"
+  target = "assets/@alpinejs/morph/index.esm.js"

@@ -1,0 +1,9 @@
+{
+  "name": "@alpinejs/collapse",
+  "version": "v3.15.12",
+  "dependencies": null,
+  "dist": {
+    "shasum": "ea5379756d88553689a759da71ed0f62b5d3a7f3",
+    "tarball": "https://registry.npmjs.org/@alpinejs/collapse/-/collapse-3.15.12.tgz"
+  }
+}

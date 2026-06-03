@@ -1,0 +1,9 @@
+{
+  "name": "@imacrayon/alpine-ajax",
+  "version": "v0.12.7",
+  "dependencies": null,
+  "dist": {
+    "shasum": "e7b4dea9655fad3b4ef39249521dbed0a54cfb54",
+    "tarball": "https://registry.npmjs.org/@imacrayon/alpine-ajax/-/alpine-ajax-0.12.7.tgz"
+  }
+}

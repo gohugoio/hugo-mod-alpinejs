@@ -1,0 +1,7 @@
+[[module.mounts]]
+  source = "package/dist"
+  target = "assets/@imacrayon/alpine-ajax"
+
+[[module.mounts]]
+  source = "package/dist/module.esm.js"
+  target = "assets/@imacrayon/alpine-ajax/index.esm.js"

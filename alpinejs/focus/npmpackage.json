@@ -1,0 +1,18 @@
+{
+  "name": "@alpinejs/focus",
+  "version": "v3.15.12",
+  "dependencies": [
+    {
+      "Name": "focus-trap",
+      "VersionRange": "^8.0.0"
+    },
+    {
+      "Name": "tabbable",
+      "VersionRange": "^6.4.0"
+    }
+  ],
+  "dist": {
+    "shasum": "5157e4dafbd10fb86fa177c9b71d40620e5d171f",
+    "tarball": "https://registry.npmjs.org/@alpinejs/focus/-/focus-3.15.12.tgz"
+  }
+}
