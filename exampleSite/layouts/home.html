@@ -1,5 +1,5 @@
 {{ define "main" }}
-<h1>{{ .Title }}</h1>
+<h1 x-data="{ message: 'I ❤️ Alpine' }" x-text="message"></h1>
 <p class="muted">Basic page structure for testing.</p>
 <section class="card">
 	<h2>Content Block</h2>
