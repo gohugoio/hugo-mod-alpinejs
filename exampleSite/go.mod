@@ -2,8 +2,6 @@ module example
 
 go 1.26.1
 
-replace github.com/gohugoio/hugo-mod-alpinejs => ../
-
 require (
 	github.com/gohugoio/hugo-mod-alpinejs v0.0.0-20260603164250-2967a9712f90 // indirect
 	github.com/gohugoio/hugo-mod-alpinejs/alpinejs/anchor/v3 v3.0.0-20260603160101-3bf59179c21c // indirect
