@@ -1,0 +1,67 @@
+# Dependabot post-script.
+#
+# When Dependabot opens a PR bumping the npm versions in package.json, this
+# workflow regenerates the Hugo Module wrappers with npmtohugomod and commits the
+# result back onto the Dependabot branch. The outcome is a single PR with the
+# version bump *and* the regenerated wrappers, ready to merge.
+#
+# The build is verified by the Netlify deploy preview: pushing the regenerated
+# commit triggers a Netlify rebuild (via webhook, so the GITHUB_TOKEN push still
+# fires it), and exampleSite/hugo.toml's workspace = "hugo.work" makes that build
+# use the local regenerated code rather than the released tags.
+#
+# After merging to main, run `npmtohugomod release` and push the tags as
+# documented in README.md ("Updates").
+name: Dependabot post-script
+
+on:
+  pull_request:
+    paths:
+      - package.json
+
+# The push below uses the default GITHUB_TOKEN, which needs write access to the
+# repo contents. For Dependabot-triggered runs the token is read-only unless
+# elevated here.
+permissions:
+  contents: write
+
+concurrency:
+  group: dependabot-npmtohugomod-${{ github.event.pull_request.number }}
+  cancel-in-progress: true
+
+jobs:
+  regenerate:
+    # Only act on Dependabot's own PRs.
+    if: github.actor == 'dependabot[bot]'
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout the Dependabot branch
+        uses: actions/checkout@v4
+        with:
+          # Check out the PR head branch (not the detached merge ref) so we can
+          # commit back to it. persist-credentials (default true) keeps the
+          # GITHUB_TOKEN configured for the later git push.
+          ref: ${{ github.head_ref }}
+
+      - name: Set up Go
+        uses: actions/setup-go@v5
+        with:
+          go-version: '1.26.x'
+
+      - name: Install npmtohugomod
+        run: go install github.com/gohugoio/npmtohugomod@latest
+
+      - name: Regenerate the Hugo Module wrappers
+        run: npmtohugomod
+
+      - name: Commit and push the regenerated wrappers
+        run: |
+          git config user.name 'dependabot[bot]'
+          git config user.email '49699333+dependabot[bot]@users.noreply.github.com'
+          git add -A
+          if git diff --cached --quiet; then
+            echo "npmtohugomod produced no changes; nothing to commit."
+            exit 0
+          fi
+          git commit -m "Regenerate Hugo Module wrappers (npmtohugomod)"
+          git push origin HEAD:${{ github.head_ref }}

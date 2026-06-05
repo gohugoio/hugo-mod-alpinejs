@@ -20,10 +20,15 @@ See the [exampleSite](./exampleSite) for a [running](https://hugo-mod-alpinejs.n
 
 This project uses [npmtohugomod](https://github.com/gohugoio/npmtohugomod) (install with `go install github.com/gohugoio/npmtohugomod@latest`) for maintenance with versions from [package.json](./package.json) maintained by dependabot. We version each module using a `vX.Y.(Z*1000+W)` [versioning scheme](https://github.com/gohugoio/npmtohugomod#module-wrapper-versioning), meaning that `alpinejs` `3.15.12` will get tagged as `v3.15.12000`.
 
-So, whenever versions in `package.json` changes do something ala:
+Whenever Dependabot bumps versions in `package.json`, the [Dependabot post-script](./.github/workflows/dependabot-npmtohugomod.yml) workflow automatically:
 
-1. Run `npmtohugomod` (doing this in the `dependabot` created branch should work).
-2. Verify that the `exampleSite` builds and works.
-3. Merge into the main branch and run `npmtohugomod release`.
-4. Push release tags to remote: `git push origin --tags`
+1. Runs `npmtohugomod` on the Dependabot branch to regenerate the wrappers.
+2. Commits the result back onto the same PR.
+
+So a Dependabot PR arrives with the version bump *and* the regenerated wrappers, ready to review and merge. The Netlify deploy preview verifies that the `exampleSite` builds against the regenerated code (via `hugo.work`). After merging into `main`:
+
+1. Run `npmtohugomod release` to create the wrapper tags (`vX.Y.(Z*1000+W)` [versioning scheme](https://github.com/gohugoio/npmtohugomod#module-wrapper-versioning), so `alpinejs` `3.15.12` is tagged `v3.15.12000`).
+2. Push release tags to remote: `git push origin --tags`
+
+To regenerate manually instead, just run `npmtohugomod` from the repo root and verify the `exampleSite` builds.
 
