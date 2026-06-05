@@ -18,5 +18,12 @@ See the [exampleSite](./exampleSite) for a [running](https://hugo-mod-alpinejs.n
 
 ## Updates
 
-This project uses [npmtohugomod](https://github.com/gohugoio/npmtohugomod) for maintenance with versions from [package.json](./package.json) maintained by dependabot. We version each module using a `vX.Y.(Z*1000+W)` [versioning scheme](https://github.com/gohugoio/npmtohugomod#module-wrapper-versioning), meaning that `alpinejs` `3.15.12` will get tagged as `v3.15.12000`.
+This project uses [npmtohugomod](https://github.com/gohugoio/npmtohugomod) (install with `go install github.com/gohugoio/npmtohugomod@latest`) for maintenance with versions from [package.json](./package.json) maintained by dependabot. We version each module using a `vX.Y.(Z*1000+W)` [versioning scheme](https://github.com/gohugoio/npmtohugomod#module-wrapper-versioning), meaning that `alpinejs` `3.15.12` will get tagged as `v3.15.12000`.
+
+So, whenever versions in `package.json` changes do something ala:
+
+1. Run `npmtohugomod` (doing this in the `dependabot` created branch should work).
+2. Verify that the `exampleSite` builds and works.
+3. Merge into the main branch and run `npmtohugomod release`.
+4. Push release tags to remote: `git push origin --tags`
 
