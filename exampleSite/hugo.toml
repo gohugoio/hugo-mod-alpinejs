@@ -48,3 +48,6 @@ disableKinds = [
 
 	[[module.imports]]
 		path = 'github.com/gohugoio/hugo-mod-alpinejs/imacrayon/alpine-ajax'
+
+	[[module.imports]]
+		path = 'github.com/gohugoio/hugo-mod-alpinejs/alpine-panzoom'

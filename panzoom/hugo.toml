@@ -1,0 +1,3 @@
+[[module.mounts]]
+  source = "package/dist/panzoom.js"
+  target = "assets/panzoom/index.esm.js"
