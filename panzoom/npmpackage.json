@@ -1,0 +1,22 @@
+{
+  "name": "panzoom",
+  "version": "v9.4.4",
+  "dependencies": [
+    {
+      "Name": "amator",
+      "VersionRange": "^1.1.0"
+    },
+    {
+      "Name": "ngraph.events",
+      "VersionRange": "^1.2.2"
+    },
+    {
+      "Name": "wheel",
+      "VersionRange": "^1.0.0"
+    }
+  ],
+  "dist": {
+    "shasum": "777487c93678a223a6d2cfe842389e452d883847",
+    "tarball": "https://registry.npmjs.org/panzoom/-/panzoom-9.4.4.tgz"
+  }
+}

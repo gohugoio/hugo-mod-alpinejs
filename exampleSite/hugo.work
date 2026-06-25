@@ -12,4 +12,6 @@ use (
 	../alpinejs/resize
 	../alpinejs/sort
 	../imacrayon/alpine-ajax
+	../alpine-panzoom
+	../panzoom
 )

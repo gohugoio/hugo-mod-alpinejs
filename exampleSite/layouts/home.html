@@ -51,14 +51,14 @@
 	<section class="card" x-data="{
 		swapped: false,
 		toggle() {
-			let target = $refs.box;
-			let html = this.swapped
-				? '<div x-ref=\'box\'><strong>Original</strong> node, morphed in place.</div>'
-				: '<div x-ref=\'box\'><em>Morphed</em> node — DOM patched, not replaced.</div>';
-			Alpine.morph(target, html);
-			this.swapped = !this.swapped;
+		let target = $refs.box;
+		let html = this.swapped
+		? '<div x-ref=\'box\'><strong>Original</strong> node, morphed in place.</div>'
+		: '<div x-ref=\'box\'><em>Morphed</em> node — DOM patched, not replaced.</div>';
+		Alpine.morph(target, html);
+		this.swapped = !this.swapped;
 		}
-	}">
+		}">
 		<h2>Morph</h2>
 		<div x-ref="box"><strong>Original</strong> node, morphed in place.</div>
 		<button @click="toggle()">Morph it</button>
@@ -111,4 +111,27 @@
 	</section>
 
 </div>
+
+<h2 id="panzoom1">Panzoom, default options</h2>
+
+{{/* alpine-panzoom */}}
+<section class="card" x-data>
+	<p class="muted">Drag to pan, scroll to zoom.</p>
+	{{ $gopher := resources.Get "gopher.svg" }}
+	<div class="panzoom" x-panzoom style="width:100%;">
+		<img src="{{ $gopher.RelPermalink }}" alt="Gopher" />
+	</div>
+</section>
+
+<h2 id="panzoom2">Panzoom, custom options</h2>
+
+{{/* alpine-panzoom */}}
+<section class="card" x-data>
+	<p class="muted">Drag to pan, scroll to zoom.</p>
+	{{ $gopher := resources.Get "gopher.svg" }}
+	<div style="width:100%;" class="panzoom" x-panzoom="{initialZoom: 0.5, maxZoom: 0.8, initialX: 100, initialY: 300, transformOrigin: { x: 0.0, y: 0.5 }}">
+		<img src="{{ $gopher.RelPermalink }}" alt="Gopher" />
+	</div>
+</section>
+
 {{ end }}

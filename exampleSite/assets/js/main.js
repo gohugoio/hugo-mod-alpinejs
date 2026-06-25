@@ -10,6 +10,7 @@ import persist from '@alpinejs/persist';
 import resize from '@alpinejs/resize';
 import sort from '@alpinejs/sort';
 import ajax from '@imacrayon/alpine-ajax';
+import panzoom from 'alpine-panzoom';
 
 window.Alpine = Alpine;
 
@@ -23,5 +24,6 @@ Alpine.plugin(persist);
 Alpine.plugin(resize);
 Alpine.plugin(sort);
 Alpine.plugin(ajax);
+Alpine.plugin(panzoom);
 
 Alpine.start();
