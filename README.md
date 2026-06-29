@@ -13,6 +13,7 @@ This project provides Hugo Module wrappers for the following npm packages:
 - [@alpinejs/resize](./alpinejs/resize/README.md)
 - [@alpinejs/sort](./alpinejs/sort/README.md)
 - [@imacrayon/alpine-ajax](./imacrayon/alpine-ajax/README.md)
+- [panzoom](./panzoom/README.md) / [alpine-panzoom](./alpine-panzoom/README.md)
 
 See the [exampleSite](./exampleSite) for a [running](https://hugo-mod-alpinejs.netlify.app/) demo of all components and how to set them up.
 
