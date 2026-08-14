@@ -5,7 +5,8 @@
       let evaluate = evaluateLater(expression);
       let options = {
         rootMargin: getRootMargin(modifiers),
-        threshold: getThreshold(modifiers)
+        threshold: getThreshold(modifiers),
+        root: modifiers.includes("parent") ? el.parentElement : null
       };
       let observer = new IntersectionObserver((entries) => {
         entries.forEach((entry) => {
