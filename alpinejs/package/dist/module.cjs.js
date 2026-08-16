@@ -1780,7 +1780,8 @@ function collapseProxies() {
 }
 
 // packages/alpinejs/src/interceptor.js
-function initInterceptors(data2) {
+function initInterceptors(data2, cleanup = () => {
+}) {
   let isObject2 = (val) => typeof val === "object" && !Array.isArray(val) && val !== null;
   let recurse = (obj, basePath = "") => {
     Object.entries(Object.getOwnPropertyDescriptors(obj)).forEach(([key, { value, enumerable }]) => {
@@ -1790,7 +1791,7 @@ function initInterceptors(data2) {
         return;
       let path = basePath === "" ? key : `${basePath}.${key}`;
       if (typeof value === "object" && value !== null && value._x_interceptor) {
-        obj[key] = value.initialize(data2, path, key);
+        obj[key] = value.initialize(data2, path, key, cleanup);
       } else {
         if (isObject2(value) && value !== obj && !(value instanceof Element)) {
           recurse(value, path);
@@ -1805,18 +1806,18 @@ function interceptor(callback, mutateObj = () => {
   let obj = {
     initialValue: void 0,
     _x_interceptor: true,
-    initialize(data2, path, key) {
-      return callback(this.initialValue, () => get(data2, path), (value) => set(data2, path, value), path, key);
+    initialize(data2, path, key, cleanup) {
+      return callback(this.initialValue, () => get(data2, path), (value) => set(data2, path, value), path, key, cleanup);
     }
   };
   mutateObj(obj);
   return (initialValue) => {
     if (typeof initialValue === "object" && initialValue !== null && initialValue._x_interceptor) {
       let initialize = obj.initialize.bind(obj);
-      obj.initialize = (data2, path, key) => {
-        let innerValue = initialValue.initialize(data2, path, key);
+      obj.initialize = (data2, path, key, cleanup) => {
+        let innerValue = initialValue.initialize(data2, path, key, cleanup);
         obj.initialValue = innerValue;
-        return initialize(data2, path, key);
+        return initialize(data2, path, key, cleanup);
       };
     } else {
       obj.initialValue = initialValue;
@@ -2854,8 +2855,10 @@ function bindInputValue(el, value) {
     }
   } else if (el.tagName === "SELECT") {
     updateSelect(el, value);
+  } else if (el.tagName === "OPTION") {
+    bindAttribute(el, "value", value);
   } else {
-    if (el.value === value)
+    if (el.value === value && (typeof value !== "object" || value === null))
       return;
     el.value = value === void 0 ? "" : value;
   }
@@ -2880,6 +2883,8 @@ function bindAttribute(el, name, value) {
   } else {
     if (isBooleanAttr(name))
       value = name;
+    if (isObjectAttr(value))
+      value = JSON.stringify(value);
     setIfChanged(el, name, value);
   }
 }
@@ -2950,6 +2955,9 @@ function isBooleanAttr(attrName) {
 }
 function attributeShouldntBePreservedIfFalsy(name) {
   return !["aria-pressed", "aria-checked", "aria-expanded", "aria-selected"].includes(name);
+}
+function isObjectAttr(value) {
+  return typeof value === "object" && value !== null;
 }
 function getBinding(el, name, fallback) {
   if (el._x_bindings && el._x_bindings[name] !== void 0)
@@ -3063,7 +3071,12 @@ function store(name, value) {
     return stores[name];
   }
   stores[name] = value;
-  initInterceptors(stores[name]);
+  if (typeof value === "object" && value !== null && value._x_interceptor) {
+    stores[name] = value.initialize(stores, name, name, () => {
+    });
+  } else {
+    initInterceptors(stores[name]);
+  }
   if (typeof value === "object" && value !== null && value.hasOwnProperty("init") && typeof value.init === "function") {
     stores[name].init();
   }
@@ -3157,7 +3170,7 @@ var Alpine = {
   get transaction() {
     return transaction;
   },
-  version: "3.15.12",
+  version: "3.16.1",
   flushAndStopDeferringMutations,
   dontAutoEvaluateFunctions,
   disableEffectScheduling,
@@ -3741,6 +3754,13 @@ directive("model", (el, { modifiers, expression }, { effect: effect3, cleanup })
       }
     });
   };
+  if (el.tagName === "SELECT") {
+    let observer2 = new MutationObserver(() => {
+      el._x_forceModelUpdate(getValue());
+    });
+    observer2.observe(el, { childList: true });
+    cleanup(() => observer2.disconnect());
+  }
   effect3(() => {
     let value = getValue();
     if (modifiers.includes("unintrusive") && document.activeElement.isSameNode(el))
@@ -3900,8 +3920,12 @@ function storeKeyForXFor(el, expression) {
 
 // packages/alpinejs/src/directives/x-data.js
 addRootSelector(() => `[${prefix("data")}]`);
+var dataForReconciliation = Symbol();
 directive("data", (el, { expression }, { cleanup }) => {
   if (shouldSkipRegisteringDataDuringClone(el))
+    return;
+  let dataToReconcile = el[dataForReconciliation];
+  if ((dataToReconcile == null ? void 0 : dataToReconcile.expression) === expression)
     return;
   expression = expression === "" ? "{}" : expression;
   let magicContext = {};
@@ -3912,15 +3936,51 @@ directive("data", (el, { expression }, { cleanup }) => {
   if (data2 === void 0 || data2 === true)
     data2 = {};
   injectMagics(data2, el);
-  let reactiveData = reactive(data2);
-  initInterceptors(reactiveData);
+  let reactiveData;
+  if (dataToReconcile == null ? void 0 : dataToReconcile.reactiveData) {
+    reactiveData = dataToReconcile.reactiveData;
+    reconcileData(reactiveData, data2);
+    let initialized = { expression };
+    el[dataForReconciliation] = initialized;
+    queueMicrotask(() => {
+      if (el[dataForReconciliation] === initialized) {
+        delete el[dataForReconciliation];
+      }
+    });
+  } else {
+    reactiveData = reactive(data2);
+  }
+  initInterceptors(reactiveData, cleanup);
   let undo = addScopeToNode(el, reactiveData);
   reactiveData["init"] && evaluate(el, reactiveData["init"]);
   cleanup(() => {
     reactiveData["destroy"] && evaluate(el, reactiveData["destroy"]);
     undo();
+    let removed = { reactiveData };
+    el[dataForReconciliation] = removed;
+    queueMicrotask(() => {
+      if (el[dataForReconciliation] === removed) {
+        delete el[dataForReconciliation];
+      }
+    });
   });
 });
+function reconcileData(target, source) {
+  Object.keys(source).forEach((key) => {
+    let descriptor = Object.getOwnPropertyDescriptor(source, key);
+    let existingDescriptor = Object.getOwnPropertyDescriptor(target, key);
+    if (descriptor.get || descriptor.set || (existingDescriptor == null ? void 0 : existingDescriptor.get) || (existingDescriptor == null ? void 0 : existingDescriptor.set)) {
+      if (existingDescriptor)
+        delete target[key];
+      if (!existingDescriptor)
+        target[key] = void 0;
+      descriptor.get || descriptor.set ? Object.defineProperty(target, key, descriptor) : target[key] = source[key];
+    } else {
+      target[key] = source[key];
+    }
+  });
+  Object.keys(target).filter((key) => !Object.prototype.hasOwnProperty.call(source, key)).forEach((key) => delete target[key]);
+}
 interceptClone((from, to) => {
   if (from._x_dataStack) {
     to._x_dataStack = from._x_dataStack;
@@ -3987,7 +4047,7 @@ directive("show", (el, { modifiers, expression }, { effect: effect3 }) => {
 });
 
 // packages/alpinejs/src/directives/x-for.js
-directive("for", (el, { expression }, { effect: effect3, cleanup }) => {
+directive("for", skipDuringClone((el, { expression }, { effect: effect3, cleanup }) => {
   let iteratorNames = parseForExpression(expression);
   let evaluateItems = evaluateLater(el, iteratorNames.items);
   let evaluateKey = evaluateLater(
@@ -4005,8 +4065,9 @@ directive("for", (el, { expression }, { effect: effect3, cleanup }) => {
       })
     );
     delete el._x_lookup;
+    delete el._x_lastRenderedEl;
   });
-});
+}));
 function refreshScope(scope2) {
   return (newScope) => {
     Object.entries(newScope).forEach(([key, value]) => {
@@ -4079,7 +4140,12 @@ function loop(templateEl, iteratorNames, evaluateItems, evaluateKey) {
         prev.after(clone2);
         prev = clone2;
       });
-      skipDuringClone(() => added.forEach((clone2) => initTree(clone2)))();
+      added.forEach((clone2) => initTree(clone2));
+      if (prev !== templateEl) {
+        templateEl._x_lastRenderedEl = prev;
+      } else {
+        delete templateEl._x_lastRenderedEl;
+      }
     });
   });
 }
@@ -4148,7 +4214,7 @@ handler3.inline = (el, { expression }, { cleanup }) => {
 directive("ref", handler3);
 
 // packages/alpinejs/src/directives/x-if.js
-directive("if", (el, { expression }, { effect: effect3, cleanup }) => {
+directive("if", skipDuringClone((el, { expression }, { effect: effect3, cleanup }) => {
   if (el.tagName.toLowerCase() !== "template")
     warn("x-if can only be used on a <template> tag", el);
   let evaluate2 = evaluateLater(el, expression);
@@ -4159,15 +4225,17 @@ directive("if", (el, { expression }, { effect: effect3, cleanup }) => {
     addScopeToNode(clone2, {}, el);
     mutateDom(() => {
       el.after(clone2);
-      skipDuringClone(() => initTree(clone2))();
+      initTree(clone2);
     });
     el._x_currentIfEl = clone2;
+    el._x_lastRenderedEl = clone2;
     el._x_undoIf = () => {
       mutateDom(() => {
         destroyTree(clone2);
         clone2.remove();
       });
       delete el._x_currentIfEl;
+      delete el._x_lastRenderedEl;
     };
     return clone2;
   };
@@ -4181,7 +4249,7 @@ directive("if", (el, { expression }, { effect: effect3, cleanup }) => {
     value ? show() : hide();
   }));
   cleanup(() => el._x_undoIf && el._x_undoIf());
-});
+}));
 
 // packages/alpinejs/src/directives/x-id.js
 directive("id", (el, { expression }, { evaluate: evaluate2 }) => {
