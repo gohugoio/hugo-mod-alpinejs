@@ -244,6 +244,9 @@ function createMorphContext(options = {}) {
       }
       let currentFromNext = currentFrom && getNextSibling(from, currentFrom);
       context.patch(currentFrom, currentTo);
+      if (currentFrom._x_lastRenderedEl) {
+        currentFromNext = getNextSibling(from, currentFrom._x_lastRenderedEl);
+      }
       currentTo = currentTo && getNextSibling(to, currentTo);
       currentFrom = currentFromNext;
     }
