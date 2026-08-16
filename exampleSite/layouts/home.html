@@ -1,5 +1,5 @@
 {{ define "main" }}
-<h1 x-data="{ message: 'I ❤️ Alpine' }" x-text="message"></h1>
+<h1 x-data="{ message: 'I ❤️ Alpine ' + Alpine.version }" x-text="message"></h1>
 <p class="muted">One small example per wired-up module, to verify the setup works.</p>
 
 <div class="grid">
