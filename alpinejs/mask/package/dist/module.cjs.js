@@ -60,6 +60,10 @@ function src_default(Alpine) {
         }
         let updater = el._x_forceModelUpdate;
         el._x_forceModelUpdate = (value2) => {
+          if (value2 === void 0) {
+            lastInputValue = "";
+            return updater(value2);
+          }
           value2 = String(value2);
           let template = templateFn(value2);
           if (template && template !== "false") {
