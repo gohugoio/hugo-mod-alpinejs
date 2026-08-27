@@ -1,9 +1,9 @@
 {
   "name": "@alpinejs/resize",
-  "version": "v3.16.1",
+  "version": "v3.16.3",
   "dependencies": null,
   "dist": {
-    "shasum": "88f0db24471b9c274e6cdec1772e6c38c5823599",
-    "tarball": "https://registry.npmjs.org/@alpinejs/resize/-/resize-3.16.1.tgz"
+    "shasum": "fabc2b36925d1a9a0630884b9ecb76941322ecfb",
+    "tarball": "https://registry.npmjs.org/@alpinejs/resize/-/resize-3.16.3.tgz"
   }
 }
