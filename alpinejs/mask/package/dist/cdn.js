@@ -4,6 +4,8 @@
     Alpine.directive("mask", (el, { value, expression }, { effect, evaluateLater, cleanup }) => {
       let templateFn = () => expression;
       let lastInputValue = "";
+      let undoModelUpdate = () => {
+      };
       queueMicrotask(() => {
         if (["function", "dynamic"].includes(value)) {
           let evaluator = evaluateLater(expression);
@@ -33,7 +35,7 @@
             }
           }
           let updater = el._x_forceModelUpdate;
-          el._x_forceModelUpdate = (value2) => {
+          let update = (value2) => {
             if (value2 === void 0) {
               lastInputValue = "";
               return updater(value2);
@@ -47,11 +49,18 @@
             updater(value2);
             el._x_model.set(value2);
           };
+          el._x_forceModelUpdate = update;
+          undoModelUpdate = () => {
+            if (el._x_forceModelUpdate === update) {
+              el._x_forceModelUpdate = updater;
+            }
+          };
         }
       });
       const controller = new AbortController();
       cleanup(() => {
         controller.abort();
+        undoModelUpdate();
       });
       el.addEventListener("input", () => processInputValue(el), {
         signal: controller.signal,
