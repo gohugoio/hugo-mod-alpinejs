@@ -1,6 +1,6 @@
 {
   "name": "@alpinejs/sort",
-  "version": "v3.16.2",
+  "version": "v3.16.3",
   "dependencies": [
     {
       "Name": "sortablejs",
@@ -8,7 +8,7 @@
     }
   ],
   "dist": {
-    "shasum": "42e12e38d12b36479808d649015bfdfacd80a5a3",
-    "tarball": "https://registry.npmjs.org/@alpinejs/sort/-/sort-3.16.2.tgz"
+    "shasum": "7bdabbe1b25ef15d84c69e568269585879186a40",
+    "tarball": "https://registry.npmjs.org/@alpinejs/sort/-/sort-3.16.3.tgz"
   }
 }
