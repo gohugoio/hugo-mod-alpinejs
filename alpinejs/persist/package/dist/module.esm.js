@@ -10,7 +10,7 @@ function src_default(Alpine) {
       console.warn("Alpine: $persist is using temporary storage since localStorage is unavailable.");
       let dummy = /* @__PURE__ */ new Map();
       storage = {
-        getItem: dummy.get.bind(dummy),
+        getItem: (key) => dummy.has(key) ? dummy.get(key) : null,
         setItem: dummy.set.bind(dummy)
       };
     }
@@ -49,7 +49,8 @@ function src_default(Alpine) {
   };
 }
 function storageHas(key, storage) {
-  return storage.getItem(key) !== null;
+  let value = storage.getItem(key);
+  return value !== null && value !== void 0;
 }
 function storageGet(key, storage) {
   let value = storage.getItem(key);
@@ -58,6 +59,10 @@ function storageGet(key, storage) {
   return JSON.parse(value);
 }
 function storageSet(key, value, storage) {
+  if (value === void 0) {
+    storage.removeItem?.(key);
+    return;
+  }
   storage.setItem(key, JSON.stringify(value));
 }
 
