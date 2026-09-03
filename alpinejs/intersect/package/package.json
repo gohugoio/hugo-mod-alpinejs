@@ -1,6 +1,6 @@
 {
     "name": "@alpinejs/intersect",
-    "version": "3.16.3",
+    "version": "3.17.0",
     "description": "Trigger JavaScript when an element enters the viewport",
     "homepage": "https://alpinejs.dev/plugins/intersect",
     "repository": {

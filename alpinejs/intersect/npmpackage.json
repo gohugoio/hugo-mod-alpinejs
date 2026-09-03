@@ -1,9 +1,9 @@
 {
   "name": "@alpinejs/intersect",
-  "version": "v3.16.3",
+  "version": "v3.17.0",
   "dependencies": null,
   "dist": {
-    "shasum": "87cdf97655a6d1b636ac3d63cd3ca0c533352ad7",
-    "tarball": "https://registry.npmjs.org/@alpinejs/intersect/-/intersect-3.16.3.tgz"
+    "shasum": "88d7fd9993d74cf80379a7f16ee751d9a30043a0",
+    "tarball": "https://registry.npmjs.org/@alpinejs/intersect/-/intersect-3.17.0.tgz"
   }
 }
