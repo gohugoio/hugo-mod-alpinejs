@@ -1,9 +1,9 @@
 {
   "name": "@alpinejs/morph",
-  "version": "v3.16.3",
+  "version": "v3.17.0",
   "dependencies": null,
   "dist": {
-    "shasum": "9227e7377b8102e6cac310d3b359eaa581c74f3a",
-    "tarball": "https://registry.npmjs.org/@alpinejs/morph/-/morph-3.16.3.tgz"
+    "shasum": "653993de8f2c788047391e916be5fed790d02477",
+    "tarball": "https://registry.npmjs.org/@alpinejs/morph/-/morph-3.17.0.tgz"
   }
 }
