@@ -11,7 +11,7 @@
   "dependencies": {
     "@alpinejs/anchor": "3.16.3",
     "@alpinejs/collapse": "3.16.3",
-    "@alpinejs/focus": "3.16.3",
+    "@alpinejs/focus": "3.17.0",
     "@alpinejs/intersect": "3.16.3",
     "@alpinejs/mask": "3.16.3",
     "@alpinejs/morph": "3.16.3",
