@@ -1,6 +1,6 @@
 {
   "name": "alpinejs",
-  "version": "v3.16.3",
+  "version": "v3.17.0",
   "dependencies": [
     {
       "Name": "@vue/reactivity",
@@ -8,7 +8,7 @@
     }
   ],
   "dist": {
-    "shasum": "5564ea86c83b3e28d2bbe0e7f4acdf5189b85165",
-    "tarball": "https://registry.npmjs.org/alpinejs/-/alpinejs-3.16.3.tgz"
+    "shasum": "968c3b3f9f604b511259f19a4dd4a21aeb2ba5fe",
+    "tarball": "https://registry.npmjs.org/alpinejs/-/alpinejs-3.17.0.tgz"
   }
 }
