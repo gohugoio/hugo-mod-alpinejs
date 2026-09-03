@@ -9,7 +9,7 @@
   "author": "",
   "license": "",
   "dependencies": {
-    "@alpinejs/anchor": "3.16.3",
+    "@alpinejs/anchor": "3.17.0",
     "@alpinejs/collapse": "3.16.3",
     "@alpinejs/focus": "3.16.3",
     "@alpinejs/intersect": "3.16.3",
