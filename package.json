@@ -19,7 +19,7 @@
     "@alpinejs/resize": "3.16.3",
     "@alpinejs/sort": "3.16.3",
     "@imacrayon/alpine-ajax": "0.12.7",
-    "alpinejs": "3.16.3",
+    "alpinejs": "3.17.1",
     "panzoom": "9.4.4"
   }
 }
