@@ -5,3 +5,8 @@ updates:
     open-pull-requests-limit: 20
     schedule:
       interval: "daily"
+    groups:
+      alpinejs:
+        patterns:
+          - "alpinejs"
+          - "@alpinejs/*"
