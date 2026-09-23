@@ -1,9 +1,9 @@
 {
   "name": "@alpinejs/mask",
-  "version": "v3.17.2",
+  "version": "v3.17.3",
   "dependencies": null,
   "dist": {
-    "shasum": "7d0eef343644a6870ba5005a9ac4c9cdf4a1c90f",
-    "tarball": "https://registry.npmjs.org/@alpinejs/mask/-/mask-3.17.2.tgz"
+    "shasum": "786131f5c42506a62565b5d2ba492af541890b82",
+    "tarball": "https://registry.npmjs.org/@alpinejs/mask/-/mask-3.17.3.tgz"
   }
 }

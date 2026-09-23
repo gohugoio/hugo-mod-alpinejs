@@ -1,6 +1,6 @@
 {
   "name": "@alpinejs/anchor",
-  "version": "v3.17.2",
+  "version": "v3.17.3",
   "dependencies": [
     {
       "Name": "@floating-ui/dom",
@@ -8,7 +8,7 @@
     }
   ],
   "dist": {
-    "shasum": "6547796ff171c2edf68fb5abc151c2841a147b64",
-    "tarball": "https://registry.npmjs.org/@alpinejs/anchor/-/anchor-3.17.2.tgz"
+    "shasum": "c851b86306f449d866890ecb335c6ea231cf6cd2",
+    "tarball": "https://registry.npmjs.org/@alpinejs/anchor/-/anchor-3.17.3.tgz"
   }
 }
