@@ -4545,7 +4545,7 @@ var Alpine = {
   get transaction() {
     return transaction;
   },
-  version: "3.17.1",
+  version: "3.17.2",
   flushAndStopDeferringMutations,
   dontAutoEvaluateFunctions,
   disableEffectScheduling,
