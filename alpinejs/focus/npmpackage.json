@@ -1,6 +1,6 @@
 {
   "name": "@alpinejs/focus",
-  "version": "v3.17.3",
+  "version": "v3.17.4",
   "dependencies": [
     {
       "Name": "focus-trap",
@@ -12,7 +12,7 @@
     }
   ],
   "dist": {
-    "shasum": "0a41ae937926c6d1c850ec18ff7a789672a3575f",
-    "tarball": "https://registry.npmjs.org/@alpinejs/focus/-/focus-3.17.3.tgz"
+    "shasum": "38f4cad73ca773706fe678f92306d450a4ba7cd0",
+    "tarball": "https://registry.npmjs.org/@alpinejs/focus/-/focus-3.17.4.tgz"
   }
 }

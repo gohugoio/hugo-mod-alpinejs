@@ -254,9 +254,11 @@
     if (!currentlyObserving)
       return callback();
     stopObservingMutations();
-    let result = callback();
-    startObservingMutations();
-    return result;
+    try {
+      return callback();
+    } finally {
+      startObservingMutations();
+    }
   }
   var isCollecting = false;
   var deferredMutations = [];
@@ -1905,7 +1907,7 @@ ${expression ? 'Expression: "' + expression + '"\n\n' : ""}`, el);
     get transaction() {
       return transaction;
     },
-    version: "3.17.3",
+    version: "3.17.4",
     flushAndStopDeferringMutations,
     dontAutoEvaluateFunctions,
     disableEffectScheduling,
