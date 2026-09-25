@@ -32,6 +32,10 @@ function src_default(Alpine) {
       evaluator(() => {
       }, { scope: { "$width": width, "$height": height } });
     };
+    if (modifiers.includes("viewport")) {
+      onViewportResize(evaluate, cleanup);
+      return;
+    }
     let off = modifiers.includes("document") ? onDocumentResize(evaluate) : onElResize(el, evaluate);
     cleanup(() => off());
   }));
@@ -43,6 +47,17 @@ function onElResize(el, callback) {
   });
   observer.observe(el);
   return () => observer.disconnect();
+}
+function onViewportResize(callback, cleanup) {
+  let viewport = window.visualViewport;
+  if (!viewport) {
+    cleanup(onElResize(document.documentElement, callback));
+    return;
+  }
+  let evaluate = () => callback(viewport.width, viewport.height);
+  viewport.addEventListener("resize", evaluate);
+  cleanup(() => viewport.removeEventListener("resize", evaluate));
+  evaluate();
 }
 var documentResizeObserver;
 var documentResizeObserverCallbacks = /* @__PURE__ */ new Set();
