@@ -1,9 +1,9 @@
 {
   "name": "@alpinejs/persist",
-  "version": "v3.17.4",
+  "version": "v3.17.5",
   "dependencies": null,
   "dist": {
-    "shasum": "462d34eb1c2318ec46a6b82cc1e4257867284d92",
-    "tarball": "https://registry.npmjs.org/@alpinejs/persist/-/persist-3.17.4.tgz"
+    "shasum": "b940e3c268f31917e8b7926c17bfea318b5f018f",
+    "tarball": "https://registry.npmjs.org/@alpinejs/persist/-/persist-3.17.5.tgz"
   }
 }

@@ -1906,7 +1906,7 @@ var Alpine = {
   get transaction() {
     return transaction;
   },
-  version: "3.17.4",
+  version: "3.17.5",
   flushAndStopDeferringMutations,
   dontAutoEvaluateFunctions,
   disableEffectScheduling,
@@ -3882,7 +3882,11 @@ function isGetterSetter(value) {
 }
 
 // packages/alpinejs/src/directives/x-cloak.js
-directive("cloak", (el) => queueMicrotask(() => mutateDom(() => el.removeAttribute(prefix("cloak")))));
+directive("cloak", (el) => {
+  if (isCloning)
+    return el.removeAttribute(prefix("cloak"));
+  queueMicrotask(() => mutateDom(() => el.removeAttribute(prefix("cloak"))));
+});
 
 // packages/alpinejs/src/directives/x-init.js
 addInitSelector(() => `[${prefix("init")}]`);
